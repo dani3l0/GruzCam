@@ -1,0 +1,2 @@
+websockets>=15.0.1
+obd>=0.7.3

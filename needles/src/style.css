@@ -1,0 +1,31 @@
+@import "@fontsource/doto/400.css";
+
+html {
+	background: #000;
+}
+
+body {
+	background-color: transparent;
+	opacity: .975;
+	height: 1080px;
+	width: 1920px;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	user-select: none;
+}
+
+.bottom {
+	position: fixed;
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-around;
+	left: 0;
+	bottom: 8px;
+}
+
+#gauges {
+	display: flex;
+	align-items: flex-end;
+}
