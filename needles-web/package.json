@@ -12,7 +12,8 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@fontsource/doto": "^5.2.8",
+    "@fontsource/tiny5": "^5.2.6",
+    "@fontsource/varela-round": "^5.2.6",
     "canvas-gauges": "^2.1.7"
   }
 }

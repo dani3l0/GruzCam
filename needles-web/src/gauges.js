@@ -7,7 +7,7 @@ const smallOnes = 172
 const bigOnes = 280
 
 // Font sizes
-const smallOnesFont = 1.125
+const smallOnesFont = 1.15
 
 export default function render(dom) {
 	// Gas pedal position
@@ -18,13 +18,14 @@ export default function render(dom) {
 		min: 0,
 		max: 100,
 		step: 10,
-		angle: 270,
-		numbers: 2,
+		angle: 225,
+		rotation: -20,
+		numbers: 3,
 		decimals: 0,
 		fontSize: smallOnesFont,
 	}, {
-		minorTicks: 2,
-		majorTicks: [0, "", 20, "", 40, "", 60, "", 80, "", 100]
+		minorTicks: 4,
+		majorTicks: [0, 20, 40, 60, 80, 100]
 	})
 
 	// Engine load
@@ -35,13 +36,14 @@ export default function render(dom) {
 		min: 0,
 		max: 100,
 		step: 10,
-		angle: 270,
-		numbers: 2,
+		angle: 225,
+		rotation: -20,
+		numbers: 3,
 		decimals: 0,
 		fontSize: smallOnesFont,
 	}, {
-		minorTicks: 2,
-		majorTicks: [0, "", 20, "", 40, "", 60, "", 80, "", 100]
+		minorTicks: 4,
+		majorTicks: [0, 20, 40, 60, 80, 100]
 	})
 
 	// Tachometer
@@ -52,12 +54,13 @@ export default function render(dom) {
 		max: 6000,
 		step: 1000,
 		numbers: 4,
+		fontSize: 1.15,
 	}, {
 		majorTicks: [0, 1, 2, 3, 4, 5, 6],
 		minorTicks: 5,
 		highlights: [
 			{
-				from: 4700,
+				from: 4800,
 				to: 6000,
 				color: "#F446"
 			}
@@ -68,8 +71,10 @@ export default function render(dom) {
 	GAUGES.speedometer = build(dom, "speedo", {
 		title: "Speed",
 		unit: "km/h",
-		max: 180,
+		max: 160,
 		step: 20,
+		numbers: 3,
+		fontSize: 1.15,
 		size: bigOnes,
 	})
 
@@ -78,25 +83,30 @@ export default function render(dom) {
 		title: "Coolant",
 		unit: "°C",
 		size: smallOnes,
-		min: 40,
-		max: 130,
-		step: 15,
-		angle: 230,
+		min: 45,
+		max: 120,
+		angle: 225,
 		numbers: 2,
-		decimals: 1,
-		rotation: -15,
+		step: 15,
+		rotation: -20,
 		fontSize: smallOnesFont,
 	}, {
-		minorTicks: 3,
+		minorTicks: 5,
+		exactTicks: true,
 		highlights: [
 			{
-				from: 40,
+				from: 45,
 				to: 60,
 				color: "#48F6"
 			},
 			{
+				from: 105,
+				to: 110,
+				color: "#FBB6"
+			},
+			{
 				from: 110,
-				to: 130,
+				to: 120,
 				color: "#F446"
 			}
 		]
@@ -113,10 +123,10 @@ export default function render(dom) {
 		angle: 225,
 		numbers: 2,
 		decimals: 1,
-		rotation: -15,
+		rotation: -20,
 		fontSize: smallOnesFont,
 	}, {
-		minorTicks: 5,
+		minorTicks: 2,
 		highlights: [
 			{
 				from: 9,
@@ -176,6 +186,7 @@ function build(dom, id, custom = {}, props = {}) {
 	let target = new RadialGauge({
 		renderTo: node,
 		maxValue: defs.max,
+		value: defs.min,
 		majorTicks: Array(Math.ceil((defs.max - defs.min + defs.step) / defs.step)).fill().map((_, i) => defs.min + i * defs.step),
 		minorTicks: 4,
 		title: defs.title,
@@ -188,39 +199,56 @@ function build(dom, id, custom = {}, props = {}) {
 		height: defs.size,
 		minValue: defs.min,
 		highlights: [],
-		animationRule: "linear",
-		animationDuration: 500,
+		animationRule: "dequad",
+		animationDuration: window.avgref,
 		valueDec: defs.decimals,
 		valueInt: defs.numbers,
 		ticksAngle: defs.angle,
 		startAngle: (360 - defs.angle) / 2 + defs.rotation,
 		needleStart: 20,
-		needleEnd: 90,
+		needleEnd: 92,
 		needleWidth: 2,
 		needleType: "arrow",
-		barStrokeWidth: 1,
-		colorBarStroke: "#222",
+		barStrokeWidth: 0,
+		colorBarStroke: "#111",
 		colorMajorTicks: "#F77",
 		colorMinorTicks: "#F778",
 		colorPlate: "#111",
-		borderInnerWidth: 0,
-		borderOuterWidth: 0,
+		borderInnerWidth: 4,
+		colorBorderInner: "#8888",
+		colorBorderInnerEnd: "#8886",
+		borderOuterWidth: 2,
+		colorBorderOuter: "#FFF8",
+		colorBorderOuterEnd: "#FFF6",
 		colorBorderMiddle: "#333",
 		colorBorderMiddleEnd: "#222",
 		animatedValue: true,
-		borderMiddleWidth: 2,
+		borderMiddleWidth: 0,
 		colorNumbers: "#FCCD",
 		fontNumbersSize: 24 * defs.fontSize,
-		fontNumbers: "monospace",
-		fontNumbersWeight: "bold",
-		fontValue: "doto",
+		fontNumbers: "sans-serif",
+		fontNumbersWeight: 700,
+		fontValue: "tiny5",
 		fontValueSize: 32 * defs.fontSize,
-		fontValueWeight: "bold",
-		valueBoxBorderRadius: 1,
-		colorValueBoxBackground: "#F446",
+		fontValueWeight: 900,
+		valueBoxBorderRadius: 2,
+		colorValueBoxBackground: "#F445",
 		colorValueText: "#F44",
 		...props
 	})
 	document.querySelector(dom).appendChild(node)
+
+	setTimeout(() => {
+		target.update()
+	}, 0)
+
+	setTimeout(() => {
+		target.value = defs.max
+	}, window.avgref * 0.5)
+
+	setTimeout(() => {
+		target.value = defs.min
+	}, window.avgref * 1.75)
+
 	return target
 }
