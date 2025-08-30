@@ -16,8 +16,8 @@ async def echo(websocket):
 
 async def main():
 	server = await serve(echo, "localhost", 8765)
-	# asyncio.gather(obdlib.polling())
-	asyncio.gather(obdlib.fake_polling())
+	asyncio.gather(obdlib.polling())
+	# asyncio.gather(obdlib.fake_polling())
 	print("Server is running... I guess")
 	await server.serve_forever()
 	

@@ -1,24 +1,56 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app">
-      <div class="setter">
-        <input type="number" id="offset" step="5"><button id="offSetter">Start</button>
-        <div id="offsetPreview"></div>
-      </div>
-      <div class="timestamper">
-        <div id="timestamp"></div>
-        <div id="timestamp-nice"></div>
-      </div>
-      <div class="bottom">
-        <div id="gauges"></div>
-      </div>
-    </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite App</title>
+	</head>
+	<body>
+		<div id="app">
+			<div class="setter">
+				<input type="number" id="offset" step="5"><button id="offSetter">Start</button><button id="stopper">Stop</button>
+				<button onclick="document.body.classList.toggle('blau')">Toggle blue screen</button>
+				<div id="offsetPreview"></div>
+			</div>
+			<div class="timestamper">
+				<div id="timestamp"></div>
+				<div id="timestamp-nice"></div>
+			</div>
+			<div class="bottom">
+
+				<!-- Coolant temperature -->
+				<div class="gauge small" id="coolant">
+					<img class="dash" src="./src/gauges/temperature.svg">
+					<img class="needle" src="./src/gauges/Needle small.svg" id="coolant-needle">
+				</div>
+
+				<!-- Tachometer -->
+				<div class="gauge" id="tacho">
+					<img class="dash" src="./src/gauges/tacho.svg">
+					<img class="needle" src="./src/gauges/Needle big.svg" id="tacho-needle">
+					<div class="value">
+						<div class="number" id="tacho-rpm">rpm</div>
+						<div class="number" id="tacho-load">%&nbsp;&nbsp;load</div>
+					</div>
+				</div>
+
+				<!-- Speedometer -->
+				<div class="gauge" id="speedo">
+					<img class="dash" src="./src/gauges/speedo.svg">
+					<img class="needle" src="./src/gauges/Needle big.svg" id="speedo-needle">
+					<div class="value">
+						<div class="number" id="speedo-speed">km/h</div>
+						<div class="number" id="speedo-trip">m</div>
+					</div>
+				</div>
+
+				<!-- Engine load -->
+				<div class="gauge small" id="load">
+					<img class="dash" src="./src/gauges/load.svg">
+					<img class="needle" src="./src/gauges/Needle small.svg" id="load-needle">
+				</div>
+			</div>
+		</div>
+		<script type="module" src="/src/main.js"></script>
+	</body>
 </html>

@@ -47,7 +47,7 @@ for line in rawCsv.split("\n"):
 		"voltage": findValue("voltage"),
 		"boost": findValue("turbo boost"),
 	}
-	if not len(entry["timestamp"]):
+	if not len(entry["timestamp"]) or not entry["voltage"] or entry["voltage"] == "-":
 		continue
 	parsed = datetime.strptime(entry["timestamp"], "%d-%b-%Y %H:%M:%S.%f")
 	entry["timestamp"] = parsed.timestamp()
